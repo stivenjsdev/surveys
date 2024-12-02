@@ -8,7 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { BarChart } from "lucide-react";
+import { BarChart, ClipboardList } from "lucide-react";
 import Link from "next/link";
 
 type Survey = {
@@ -69,12 +69,20 @@ export function SurveyList() {
               <TableCell>{survey.createdAt}</TableCell>
               <TableCell>{survey.responses}</TableCell>
               <TableCell>
-                <Button variant="outline" size="sm" asChild>
-                  <Link href={`/dashboard/survey/${survey.id}`}>
-                    <BarChart className="mr-2 h-4 w-4" />
-                    Ver Resultados
-                  </Link>
-                </Button>
+                <div className="flex space-x-2">
+                  <Button variant="outline" size="sm" asChild>
+                    <Link href={`/survey/${survey.id}`}>
+                      <ClipboardList className="mr-2 h-4 w-4" />
+                      Realizar Encuesta
+                    </Link>
+                  </Button>
+                  <Button variant="outline" size="sm" asChild>
+                    <Link href={`/dashboard/survey/${survey.id}`}>
+                      <BarChart className="mr-2 h-4 w-4" />
+                      Ver Resultados
+                    </Link>
+                  </Button>
+                </div>
               </TableCell>
             </TableRow>
           ))}
