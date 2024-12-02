@@ -1,0 +1,56 @@
+export const surveyOptions = [
+  {
+    id: 1,
+    text: "Mejor disponibilidad de recursos con habilidades en gestión de proyectos",
+  },
+  {
+    id: 2,
+    text: "Mejor disponibilidad de información sobre las lecciones aprendidas de experiencias anteriores",
+  },
+  {
+    id: 3,
+    text: "Transferencia efectiva de conocimiento en la gestión de proyectos",
+  },
+  { id: 4, text: "Mejor comunicación entre áreas de la organización" },
+  { id: 5, text: "Mejor comunicación entre el equipo del proyecto" },
+  { id: 6, text: "Mejor comunicación con el nivel gerencial superior" },
+  { id: 7, text: "Mejora de la fiabilidad de la información proporcionada" },
+  { id: 8, text: "Estimaciones de tiempo y costo más confiables" },
+  {
+    id: 9,
+    text: "Mejora en la disponibilidad de información para una mejor toma de decisiones",
+  },
+  { id: 10, text: "Mejor control sobre los equipos de proyecto" },
+  { id: 11, text: "Mejor tiempo de proyecto y control de costos del proyecto" },
+  { id: 12, text: "Mejores terceros y control de subcontratistas" },
+  {
+    id: 13,
+    text: "Mejor apoyo de proyectos por parte de la gerencia superior",
+  },
+  { id: 14, text: "Mayor motivación y compromiso individual" },
+  { id: 15, text: "Mejor definición de roles y responsabilidades" },
+  {
+    id: 16,
+    text: "Mayor agilidad en la toma de decisiones de gestión de proyectos",
+  },
+  { id: 17, text: "Mejor asignación de recursos en todos los proyectos" },
+  {
+    id: 18,
+    text: "Reducción de los ciclos de vida de los proyectos dentro de la organización",
+  },
+  { id: 19, text: "Reducción de la exposición al riesgo" },
+  { id: 20, text: "Mayor integración entre áreas de la organización" },
+  { id: 21, text: "Aumento de la productividad en los proyectos" },
+  { id: 22, text: "Mejor calidad de los resultados de los proyectos" },
+  { id: 23, text: "Mejora de la satisfacción del cliente" },
+  { id: 24, text: "Mejor priorización de proyectos" },
+  {
+    id: 25,
+    text: "Mayor visibilidad de la relación entre proyectos y estrategia",
+  },
+  { id: 26, text: "Mayor visibilidad de la relación entre programas" },
+  { id: 27, text: "Mayor visibilidad de la relación entre proyectos" },
+  { id: 28, text: "Mayor visibilidad del progreso del proyecto" },
+  { id: 29, text: "Mayor visibilidad de la demanda de recursos" },
+  { id: 30, text: "Mayor previsibilidad para la toma de decisiones" },
+];
