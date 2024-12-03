@@ -12,18 +12,21 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { saveSurveyResponse } from "@/lib/actions/surveyActions";
 import { surveyOptions } from "@/lib/surveyOptions";
 import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 
 type Step = "name" | "select" | "prioritize";
 
-export default function SurveyPage({ params }: { params: { id: string } }) {
+export default function SurveyPage() {
   const [fullName, setFullName] = useState("");
   const [selectedOptions, setSelectedOptions] = useState<number[]>([]);
   const [step, setStep] = useState<Step>("name");
   const router = useRouter();
+  const params = useParams();
+  const surveyId = Array.isArray(params.id) ? params.id[0] : params.id;
 
   const handleNameSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -58,11 +61,17 @@ export default function SurveyPage({ params }: { params: { id: string } }) {
     setSelectedOptions(items);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     // Aquí iría la lógica para enviar los resultados al servidor
     console.log("Nombre completo:", fullName);
     console.log("Opciones seleccionadas y priorizadas:", selectedOptions);
-    router.push("/survey-complete");
+    try {
+      if (!surveyId) throw new Error("El ID de la encuesta es requerido.");
+      await saveSurveyResponse(surveyId, fullName, selectedOptions);
+      router.push("/survey-complete");
+    } catch (error) {
+      console.error("Error al guardar la respuesta:", error);
+    }
   };
 
   return (
