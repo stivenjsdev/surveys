@@ -39,9 +39,6 @@ export async function getSurveyResults(surveyId: string) {
     score: 0,
   }));
 
-  console.log("responses", responses);
-  console.log("optionScores", optionScores);
-
   responses.forEach((response) => {
     response.selections.forEach((optionId, index) => {
       const score = 10 - index;

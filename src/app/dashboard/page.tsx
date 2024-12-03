@@ -24,7 +24,7 @@ function DashboardSurveyListSkeleton() {
   );
 }
 
-// Dashboard Page Component
+// Dashboard Page Component /dashboard
 export default async function DashboardPage() {
   // Fetch all surveys (Every time it is requested)
   const surveys = await getAllSurveys();

@@ -12,11 +12,15 @@ interface SurveyResultsProps {
   params: Promise<{ id: string }>;
 }
 
+// Survey Results Page Component /dashboard/survey/[id]
 export default async function SurveyResultsPage({
   params,
 }: SurveyResultsProps) {
+  // Get the survey id from the params
   const { id } = await params;
+  // Fetch the survey results
   const results = await getSurveyResults(id);
+  // Get the maximum score to calculate the progress bar
   const maxScore = Math.max(...results.map((r) => r.score));
 
   return (
@@ -29,18 +33,22 @@ export default async function SurveyResultsPage({
             usuarios
           </CardDescription>
         </CardHeader>
+        {/* 10 most priority options */}
         <CardContent>
           <div className="space-y-6">
             {results.map((result, index) => (
               <div key={result.id} className="space-y-2">
                 <div className="flex justify-between items-center">
+                  {/* numeration and option text */}
                   <span className="font-medium">
                     {index + 1}. {result.text}
                   </span>
+                  {/* score */}
                   <span className="text-sm text-muted-foreground">
                     {result.score} puntos
                   </span>
                 </div>
+                {/* progress bar */}
                 <Progress
                   value={(result.score / maxScore) * 100}
                   className="h-2"
