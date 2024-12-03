@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
+// SurveyCompletePage component /survey-complete
 export default function SurveyCompletePage() {
   return (
     <div className="container mx-auto py-8">
@@ -10,7 +11,7 @@ export default function SurveyCompletePage() {
         <CardContent>
           <p>
             Gracias por completar la encuesta. Sus respuestas han sido
-            registradas.
+            registradas. ya puede cerrar esta encuesta.
           </p>
         </CardContent>
       </Card>
