@@ -9,7 +9,7 @@ import { Progress } from "@/components/ui/progress";
 import { getSurveyResults } from "@/lib/actions/surveyActions";
 
 interface SurveyResultsProps {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 export default async function SurveyResultsPage({
