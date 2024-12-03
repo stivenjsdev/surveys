@@ -2,6 +2,7 @@ import { DashboardHeader } from "@/components/DashboardHeader";
 import { SurveyList } from "@/components/SurveyList";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { getAllSurveys } from "@/lib/actions/surveyActions";
 import { Suspense } from "react";
 
 function DashboardSkeleton() {
@@ -18,7 +19,19 @@ function DashboardSkeleton() {
   );
 }
 
-export default function DashboardPage() {
+export default async function DashboardPage() {
+  const surveys = await getAllSurveys();
+
+  // Calculate summary statistics
+  const totalSurveys = surveys.length;
+  const totalResponses = surveys.reduce(
+    (sum, survey) => sum + (survey.responses?.length || 0),
+    0
+  );
+  const completionRate =
+    totalResponses > 0 ? (totalResponses / (totalSurveys * 100)) * 100 : 0;
+  const averageTime = "5m 13s"; // This would need to be calculated based on actual response data
+
   return (
     <div className="flex flex-col min-h-screen">
       <DashboardHeader />
@@ -43,7 +56,7 @@ export default function DashboardPage() {
               </svg>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">10</div>
+              <div className="text-2xl font-bold">{totalSurveys}</div>
               <p className="text-xs text-muted-foreground">
                 +2 desde el último mes
               </p>
@@ -70,7 +83,7 @@ export default function DashboardPage() {
               </svg>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">1,234</div>
+              <div className="text-2xl font-bold">{totalResponses}</div>
               <p className="text-xs text-muted-foreground">
                 +15% desde el último mes
               </p>
@@ -95,7 +108,9 @@ export default function DashboardPage() {
               </svg>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">85%</div>
+              <div className="text-2xl font-bold">
+                {completionRate.toFixed(1)}%
+              </div>
               <p className="text-xs text-muted-foreground">
                 +2% desde el último mes
               </p>
@@ -120,7 +135,7 @@ export default function DashboardPage() {
               </svg>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">5m 13s</div>
+              <div className="text-2xl font-bold">{averageTime}</div>
               <p className="text-xs text-muted-foreground">
                 -30s desde el último mes
               </p>
@@ -128,7 +143,7 @@ export default function DashboardPage() {
           </Card>
         </div>
         <Suspense fallback={<DashboardSkeleton />}>
-          <SurveyList />
+          <SurveyList surveys={surveys} />
         </Suspense>
       </main>
     </div>

@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { createSurvey } from "@/lib/actions/surveyActions";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -39,15 +40,18 @@ export function CreateSurveyForm({ onSuccess }: CreateSurveyFormProps) {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
-    // Aquí iría la lógica para enviar los datos al servidor
     console.log(values);
-    setTimeout(() => {
-      setIsLoading(false);
+    try {
+      await createSurvey(values);
       form.reset();
-      onSuccess?.();
-    }, 2000);
+      onSuccess?.(); // Cierra el modal
+    } catch (error) {
+      console.error("Error al crear la encuesta:", error);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
