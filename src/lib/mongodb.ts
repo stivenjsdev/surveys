@@ -16,8 +16,6 @@ const cached = global.mongoose || { conn: null, promise: null };
 export const dbConnect = async () => {
   if (cached.conn) return cached.conn;
 
-  console.log("MONGODB_URI", MONGODB_URI);
-
   if (!MONGODB_URI) throw new Error("MongoDB URI is missing");
 
   const opts = {
