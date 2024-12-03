@@ -2,6 +2,7 @@
 
 import { Response } from "@/models/Response";
 import { Survey } from "@/models/Survey";
+import { revalidatePath } from "next/cache";
 import { dbConnect } from "../mongodb";
 
 export async function getSurveyResults(surveyId: string) {
@@ -91,6 +92,8 @@ export async function createSurvey(data: {
   });
 
   await newSurvey.save();
+
+  revalidatePath("/dashboard"); // Forzar revalidación
 
   return {
     id: newSurvey._id.toString(),
