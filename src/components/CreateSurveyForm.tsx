@@ -29,9 +29,12 @@ interface CreateSurveyFormProps {
   onSuccess?: () => void;
 }
 
+// Create Survey Form Component, used in CreateSurveyModal
 export function CreateSurveyForm({ onSuccess }: CreateSurveyFormProps) {
+  // Loading state for the form
   const [isLoading, setIsLoading] = useState(false);
 
+  // Form using react-hook-form and zod for validation
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -40,13 +43,16 @@ export function CreateSurveyForm({ onSuccess }: CreateSurveyFormProps) {
     },
   });
 
+  // Submit handler for the form
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
     console.log(values);
     try {
+      // Call the createSurvey action to create a new survey
       await createSurvey(values);
+      // Reset the form and call the onSuccess callback
       form.reset();
-      onSuccess?.(); // Cierra el modal
+      onSuccess?.(); // Close the modal
     } catch (error) {
       console.error("Error al crear la encuesta:", error);
     } finally {
@@ -57,6 +63,7 @@ export function CreateSurveyForm({ onSuccess }: CreateSurveyFormProps) {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        {/* Title Field */}
         <FormField
           control={form.control}
           name="title"
@@ -76,6 +83,7 @@ export function CreateSurveyForm({ onSuccess }: CreateSurveyFormProps) {
             </FormItem>
           )}
         />
+        {/* Description Field */}
         <FormField
           control={form.control}
           name="description"
@@ -96,6 +104,7 @@ export function CreateSurveyForm({ onSuccess }: CreateSurveyFormProps) {
             </FormItem>
           )}
         />
+        {/* Submit Button */}
         <Button type="submit" disabled={isLoading}>
           {isLoading ? "Creando..." : "Crear Encuesta"}
         </Button>

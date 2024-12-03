@@ -7,6 +7,7 @@ interface StatisticCardProps {
   icon: React.ReactNode;
 }
 
+// Statistic Card Component, used in Dashboard Page
 export function StatisticCard({
   title,
   value,

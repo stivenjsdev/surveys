@@ -21,6 +21,7 @@ interface SurveyListProps {
   surveys: SerializedSurveyType[];
 }
 
+// Survey List Component, used in Dashboard Page
 export function SurveyList({ surveys }: SurveyListProps) {
   // handler to delete a survey
   const handleDelete = async (surveyId: string) => {
