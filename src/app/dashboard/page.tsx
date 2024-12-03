@@ -1,3 +1,4 @@
+// This route or Component must be rendered dynamically (not statically)
 export const dynamic = "force-dynamic";
 
 import { DashboardHeader } from "@/components/DashboardHeader";
@@ -7,7 +8,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { getAllSurveys } from "@/lib/actions/surveyActions";
 import { Suspense } from "react";
 
-function DashboardSkeleton() {
+// This is a simple skeleton component to show while the data is loading
+function DashboardSurveyListSkeleton() {
   return (
     <div className="space-y-4">
       <Skeleton className="h-8 w-[250px]" />
@@ -21,24 +23,32 @@ function DashboardSkeleton() {
   );
 }
 
+// Dashboard Page Component
 export default async function DashboardPage() {
+  // Fetch all surveys (Every time it is requested)
   const surveys = await getAllSurveys();
 
   // Calculate summary statistics
   const totalSurveys = surveys.length;
+  //    Calculate total responses by summing the length of each survey's responses array
   const totalResponses = surveys.reduce(
     (sum, survey) => sum + (survey.responses?.length || 0),
     0
   );
+  //   Calculate completion rate as a percentage of total responses to total surveys (this is a placeholder calculation)
   const completionRate =
     totalResponses > 0 ? (totalResponses / (totalSurveys * 100)) * 100 : 0;
   const averageTime = "5m 13s"; // This would need to be calculated based on actual response data
 
   return (
     <div className="flex flex-col min-h-screen">
+      {/* Dashboard Header */}
       <DashboardHeader />
+      {/* Main Content */}
       <main className="flex-1 p-6 space-y-6">
+        {/* Surveys Statistics */}
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          {/* Total Surveys */}
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">
@@ -64,6 +74,7 @@ export default async function DashboardPage() {
               </p>
             </CardContent>
           </Card>
+          {/* Total Answers */}
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">
@@ -91,6 +102,7 @@ export default async function DashboardPage() {
               </p>
             </CardContent>
           </Card>
+          {/* Completion Rate */}
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">
@@ -118,6 +130,7 @@ export default async function DashboardPage() {
               </p>
             </CardContent>
           </Card>
+          {/* Average Time */}
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">
@@ -144,7 +157,8 @@ export default async function DashboardPage() {
             </CardContent>
           </Card>
         </div>
-        <Suspense fallback={<DashboardSkeleton />}>
+        {/* Survey List */}
+        <Suspense fallback={<DashboardSurveyListSkeleton />}>
           <SurveyList surveys={surveys} />
         </Suspense>
       </main>
