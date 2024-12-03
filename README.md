@@ -10,6 +10,7 @@ Este proyecto es una aplicación de gestión de encuestas desarrollada con **Nex
   - [Estructura del Proyecto](#estructura-del-proyecto)
   - [Rutas de la Aplicación](#rutas-de-la-aplicación)
     - [`/dashboard`](#dashboard)
+    - [`/dashboard/survey/[id]`](#dashboardsurveyid)
     - [`/survey/[id]`](#surveyid)
     - [`/survey-complete`](#survey-complete)
     - [Resumen de las Rutas](#resumen-de-las-rutas)
@@ -22,7 +23,7 @@ Este proyecto es una aplicación de gestión de encuestas desarrollada con **Nex
     - [Modelo: Response](#modelo-response)
       - [Campos](#campos)
       - [Configuración del Esquema](#configuración-del-esquema)
-    - [Modelo: Response](#modelo-response-1)
+    - [Modelo: Survey](#modelo-survey)
       - [Campos](#campos-1)
       - [Configuración del Esquema](#configuración-del-esquema-1)
     - [Relación entre Modelos](#relación-entre-modelos)
@@ -84,6 +85,15 @@ La aplicación utiliza el **App Router** de Next.js para manejar las rutas. A co
 
 ---
 
+### `/dashboard/survey/[id]`
+
+- **Descripción**: Página dinámica para visualizar las 10 opciones mas prioritarias, calculadas por medio de puntuación, entre todos los encuestados.
+- **Componente Asociado**: `src/app/dashboard/survey/[id]/page.tsx`
+- **Funcionalidad**:
+  - Listar las 10 opciones mas prioritarias y su puntuación.
+
+---
+
 ### `/survey/[id]`
 
 - **Descripción**: Página dinámica para responder una encuesta específica.
@@ -109,11 +119,12 @@ La aplicación utiliza el **App Router** de Next.js para manejar las rutas. A co
 
 ### Resumen de las Rutas
 
-| Ruta               | Descripción                          | Método HTTP | Funcionalidad                                    |
-| ------------------ | ------------------------------------ | ----------- | ------------------------------------------------ |
-| `/dashboard`       | Resumen y estadísticas de encuestas. | `GET`       | Página de administración.                        |
-| `/survey/[id]`     | Responder una encuesta específica.   | `GET`       | Página dinámica con el contenido de la encuesta. |
-| `/survey-complete` | Confirmación de encuesta completada. | `GET`       | Página de agradecimiento.                        |
+| Ruta                     | Descripción                                              | Método HTTP | Funcionalidad                                    |
+| ------------------------ | -------------------------------------------------------- | ----------- | ------------------------------------------------ |
+| `/dashboard`             | Resumen y estadísticas de encuestas.                     | `GET`       | Página de administración.                        |
+| `/dashboard/survey/[id]` | 10 opciones mas prioritarias de una encuesta específica. | `GET`       | Página de administración.                        |
+| `/survey/[id]`           | Responder una encuesta específica.                       | `GET`       | Página dinámica con el contenido de la encuesta. |
+| `/survey-complete`       | Confirmación de encuesta completada.                     | `GET`       | Página de agradecimiento.                        |
 
 ---
 
@@ -200,7 +211,7 @@ El modelo **Response** representa las respuestas que los usuarios envían para u
 
 - `timestamps`: Habilita los campos `createdAt` y `updatedAt` automáticamente.
 
-### Modelo: Response
+### Modelo: Survey
 
 El modelo **Survey** representa una encuesta creada por los administradores. Este modelo incluye un campo virtual para las respuestas relacionadas.
 
