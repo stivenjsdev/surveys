@@ -33,11 +33,6 @@ export async function getSurveyResults(surveyId: string) {
 
   const responses = await Response.find({ surveyId });
 
-  // const optionScores = survey.options.map((_, index) => ({
-  //   id: index + 1,
-  //   text: survey.options[index],
-  //   score: 0,
-  // }));
   const optionScores = surveyOptions.map((option) => ({
     id: option.id,
     text: option.text,
@@ -45,7 +40,7 @@ export async function getSurveyResults(surveyId: string) {
   }));
 
   console.log("responses", responses);
-  console.log("optionscores", optionScores);
+  console.log("optionScores", optionScores);
 
   responses.forEach((response) => {
     response.selections.forEach((optionId, index) => {
