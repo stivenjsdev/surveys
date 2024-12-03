@@ -80,7 +80,24 @@ export async function getAllSurveys() {
     model: Response, // Modelo relacionado
   });
 
-  return surveys;
+  const surveysFormatted = surveys.map((survey) => ({
+    _id: survey._id.toString(), // Convertir ObjectId a string
+    title: survey.title,
+    description: survey.description,
+    options: survey.options,
+    createdAt: survey.createdAt.toISOString(), // Convertir fecha a string ISO
+    updatedAt: survey.updatedAt?.toISOString(), // Convertir fecha a string ISO si existe
+    responses: survey.responses?.map((response) => ({
+      _id: response._id.toString(), // Convertir ObjectId a string
+      surveyId: response.surveyId.toString(), // Convertir ObjectId a string
+      fullName: response.fullName,
+      selections: response.selections,
+      createdAt: response.createdAt.toISOString(), // Convertir fecha a string ISO
+      updatedAt: response.updatedAt?.toISOString(), // Convertir fecha a string ISO si existe
+    })),
+  }));
+
+  return surveysFormatted;
 }
 
 export async function createSurvey(data: {
@@ -102,13 +119,32 @@ export async function createSurvey(data: {
 
   await newSurvey.save();
 
-  revalidatePath("/dashboard"); // Forzar revalidación
+  revalidatePath("/dashboard"); // Forzar revalidar
 
   return {
-    id: newSurvey._id.toString(),
+    _id: newSurvey._id.toString(),
     title: newSurvey.title,
     description: newSurvey.description,
     createdAt: newSurvey.createdAt,
     updatedAt: newSurvey.updatedAt,
   };
+}
+
+export async function deleteSurvey(surveyId: string) {
+  await dbConnect();
+
+  // Verificar si la encuesta existe
+  const survey = await Survey.findById(surveyId);
+  if (!survey) {
+    throw new Error("Survey not found");
+  }
+
+  // Eliminar todas las respuestas relacionadas
+  await Response.deleteMany({ surveyId });
+
+  // Eliminar la encuesta
+  await Survey.findByIdAndDelete(surveyId);
+
+  // Revalidar la ruta del dashboard
+  revalidatePath("/dashboard");
 }

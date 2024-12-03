@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { DashboardHeader } from "@/components/DashboardHeader";
 import { SurveyList } from "@/components/SurveyList";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
