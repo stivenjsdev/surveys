@@ -5,7 +5,7 @@ export type SurveyType = Document & {
   _id: Types.ObjectId;
   title: string;
   description: string;
-  options: string[];
+  options: string[]; // No se utiliza actualmente ya que surveyOptions.ts maneja las 30 ops predefinidas
   responses?: ResponseType[];
   createdAt: Date;
   updatedAt: Date;

@@ -20,7 +20,7 @@ export default async function SurveyResultsPage({
   const maxScore = Math.max(...results.map((r) => r.score));
 
   return (
-    <div className="container mx-auto py-8">
+    <div className="container mx-auto py-8 px-2">
       <Card className="w-full max-w-4xl mx-auto">
         <CardHeader>
           <CardTitle>Resultados de la Encuesta</CardTitle>
