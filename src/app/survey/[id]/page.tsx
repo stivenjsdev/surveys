@@ -20,14 +20,21 @@ import { useState } from "react";
 
 type Step = "name" | "select" | "prioritize";
 
+// SurveyPage component /survey/[id]
 export default function SurveyPage() {
+  // name of respondent
   const [fullName, setFullName] = useState("");
+  // 10 selected options by respondent
   const [selectedOptions, setSelectedOptions] = useState<number[]>([]);
-  const [step, setStep] = useState<Step>("name");
+  // current step of the survey
+  const [step, setStep] = useState<Step>("name"); // name, select, prioritize
+
   const router = useRouter();
   const params = useParams();
+  // get survey ID from URL params (e.g. /survey/123) and discard any other array params
   const surveyId = Array.isArray(params.id) ? params.id[0] : params.id;
 
+  // handle name submission in the first step
   const handleNameSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (fullName.trim()) {
@@ -35,6 +42,7 @@ export default function SurveyPage() {
     }
   };
 
+  // handle option selection in the second step
   const handleOptionToggle = (optionId: number) => {
     setSelectedOptions((prev) =>
       prev.includes(optionId)
@@ -45,12 +53,14 @@ export default function SurveyPage() {
     );
   };
 
+  // handle continue button click to move to the next step in the second step
   const handleContinue = () => {
     if (selectedOptions.length === 10) {
       setStep("prioritize");
     }
   };
 
+  // handle drag and drop reordering of selected options in the last step
   const handleDragEnd = (result: any) => {
     if (!result.destination) return;
 
@@ -61,13 +71,16 @@ export default function SurveyPage() {
     setSelectedOptions(items);
   };
 
+  // handle survey response submission in the last step
   const handleSubmit = async () => {
-    // Aquí iría la lógica para enviar los resultados al servidor
     console.log("Nombre completo:", fullName);
     console.log("Opciones seleccionadas y priorizadas:", selectedOptions);
     try {
+      // check if survey ID is available
       if (!surveyId) throw new Error("El ID de la encuesta es requerido.");
+      // save survey response to database
       await saveSurveyResponse(surveyId, fullName, selectedOptions);
+      // redirect to survey complete page
       router.push("/survey-complete");
     } catch (error) {
       console.error("Error al guardar la respuesta:", error);
@@ -76,9 +89,12 @@ export default function SurveyPage() {
 
   return (
     <div className="container mx-auto py-8">
+      {/* Survey Steps card container */}
       <Card className="w-full max-w-4xl mx-auto">
         <CardHeader>
+          {/* Survey Title */}
           <CardTitle>Encuesta de Gestión de Proyectos</CardTitle>
+          {/* Survey Step Description, changes according to the current step  */}
           <CardDescription>
             {step === "name" &&
               "Por favor, ingrese su nombre completo para comenzar."}
@@ -88,7 +104,9 @@ export default function SurveyPage() {
               "Ordene las opciones seleccionadas por prioridad (1 siendo la más importante)."}
           </CardDescription>
         </CardHeader>
+        {/* Survey Step Content, changes according to the current step */}
         <CardContent>
+          {/* Name Step */}
           {step === "name" && (
             <form onSubmit={handleNameSubmit}>
               <div className="space-y-2">
@@ -103,6 +121,7 @@ export default function SurveyPage() {
               </div>
             </form>
           )}
+          {/* Select Step */}
           {step === "select" && (
             <div className="space-y-4">
               {surveyOptions.map((option) => (
@@ -126,6 +145,7 @@ export default function SurveyPage() {
               ))}
             </div>
           )}
+          {/* Prioritize Step */}
           {step === "prioritize" && (
             <DragDropContext onDragEnd={handleDragEnd}>
               <Droppable droppableId="prioritize-list">
@@ -166,7 +186,9 @@ export default function SurveyPage() {
             </DragDropContext>
           )}
         </CardContent>
+        {/* Survey Step Footer and submit button, changes according to the current step */}
         <CardFooter className="flex justify-between">
+          {/* name step */}
           {step === "name" && (
             <Button
               type="submit"
@@ -176,6 +198,7 @@ export default function SurveyPage() {
               Comenzar Encuesta
             </Button>
           )}
+          {/* select step */}
           {step === "select" && (
             <Button
               onClick={handleContinue}
@@ -184,6 +207,7 @@ export default function SurveyPage() {
               Continuar ({selectedOptions.length}/10 seleccionadas)
             </Button>
           )}
+          {/* prioritize step */}
           {step === "prioritize" && (
             <Button onClick={handleSubmit}>Enviar respuestas</Button>
           )}
