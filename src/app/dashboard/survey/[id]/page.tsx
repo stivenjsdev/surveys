@@ -6,7 +6,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { getMockSurveyResults } from "@/lib/surveyResults";
+import { getSurveyResults } from "@/lib/actions/surveyActions";
 
 interface SurveyResultsProps {
   params: { id: string };
@@ -16,7 +16,7 @@ export default async function SurveyResultsPage({
   params,
 }: SurveyResultsProps) {
   const { id } = await params;
-  const results = getMockSurveyResults(id);
+  const results = await getSurveyResults(id);
   const maxScore = Math.max(...results.map((r) => r.score));
 
   return (
