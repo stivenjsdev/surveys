@@ -6,6 +6,23 @@ import { revalidatePath } from "next/cache";
 import { dbConnect } from "../mongodb";
 import { surveyOptions } from "../surveyOptions";
 
+export type SerializedSurveyType = {
+  _id: string;
+  title: string;
+  description: string;
+  options: string[];
+  createdAt: string;
+  updatedAt: string;
+  responses?: {
+    _id: string;
+    surveyId: string;
+    fullName: string;
+    selections: number[];
+    createdAt: string;
+    updatedAt: string;
+  }[];
+};
+
 export async function getSurveyResults(surveyId: string) {
   await dbConnect();
 
@@ -71,7 +88,7 @@ export async function getSurveyById(surveyId: string) {
   return survey;
 }
 
-export async function getAllSurveys() {
+export async function getAllSurveys(): Promise<SerializedSurveyType[]> {
   await dbConnect();
 
   // Obtener todas las encuestas con las respuestas relacionadas
